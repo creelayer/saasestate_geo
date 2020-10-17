@@ -62,6 +62,10 @@ func (c *Coder) mapToResponse(results *[]Results) []geo.Response {
 			Name:    r.FormattedAddress,
 			Lat:     r.Geometry.Location.Lat,
 			Lng:     r.Geometry.Location.Lng,
+			NLat: r.Geometry.Viewport.Northeast.Lat,
+			LLng: r.Geometry.Viewport.Northeast.Lng,
+			SLat: r.Geometry.Viewport.Southwest.Lat,
+			SLng: r.Geometry.Viewport.Southwest.Lng,
 		}
 
 		location.Components = make([]geo.Component, len(r.AddressComponents))
