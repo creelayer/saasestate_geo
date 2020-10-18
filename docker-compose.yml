@@ -1,22 +1,23 @@
 version: "3"
+
 services:
+
   db:
     build:
       context: ./db
-      dockerfile: Dockerfile
-    hostname: app
+    container_name: saasestate_geo_db
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: geo
     volumes:
-      - "./data:/var/lib/postgresql/data"
+      - ./db/data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - 5433:5432
 
   app:
     build:
       context: ./app
-      dockerfile: Dockerfile
+    container_name: saasestate_geo_app
     environment:
       APP_ENV: prod
     depends_on:

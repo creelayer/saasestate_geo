@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"log"
 	"time"
 )
@@ -31,7 +32,9 @@ func NewGorm(dsn string) *Gorm {
 func (c *Gorm) connect()  {
 
 	for {
-		conn, err := gorm.Open(postgres.Open(c.dsn), &gorm.Config{})
+		conn, err := gorm.Open(postgres.Open(c.dsn), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Info),
+		})
 		if err != nil {
 			if c.connectRetryCount == 0 {
 				log.Fatalf("Not able to establish connection to database %s", c.dsn)

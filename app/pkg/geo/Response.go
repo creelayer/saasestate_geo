@@ -2,15 +2,11 @@ package geo
 
 type Response struct {
 	Id int64
-	PlaceId string
+	PlaceId string `json:"-"`
 	Name string
 	Lat float64
 	Lng float64
-	NLat float64
-	LLng float64
-	SLat float64
-	SLng float64
-	Components []Component
+	Components []Component `json:"-"`
 	Data []byte `json:"-"`
 }
 

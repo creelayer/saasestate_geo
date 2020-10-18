@@ -2,5 +2,5 @@
   "server_port": "8088",
   "appName" : "Saas estate geo",
   "dsn":  "host=localhost user=postgres password=postgres dbname=geo port=5433 sslmode=disable TimeZone=Asia/Shanghai",
-  "google_geo_key": ""
+  "google_geo_key": "AIzaSyB5s6qBw3rG4AL5V68osz4-qCjE6k3nNso"
 }
