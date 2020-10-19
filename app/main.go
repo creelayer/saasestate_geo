@@ -17,7 +17,7 @@ func init() {
 	}
 
 	configurator := core.Configurator{}
-	configurator.Read("./app/config/main."+appEnv+".json", &core.App.Config)
+	configurator.Read("../app/config/main."+appEnv+".json", &core.App.Config)
 
 	//core.App.Pgx = core.NewPgx(core.App.Config["dsn"])
 	core.App.Gorm = core.NewGorm(core.App.Config["dsn"])

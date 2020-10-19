@@ -57,4 +57,5 @@ func (c *Gorm) connect()  {
 func (c *Gorm) generateSchema() {
 	_ = c.Conn.Debug().AutoMigrate(&entity.Address{})
 	_ = c.Conn.Debug().AutoMigrate(&entity.AddressComponents{})
+	_ = c.Conn.Debug().AutoMigrate(&entity.ReverseCallStatistic{})
 }

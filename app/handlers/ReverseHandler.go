@@ -1,30 +1,31 @@
 package handlers
 
 import (
-	"app/service"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"strconv"
+
+	"app/service"
 )
+
+
 
 func ReverseHandler(c *gin.Context) {
 
+
+	var query struct {
+		Lat  float64 `form:"lat" json:"lat" binding:"required"`
+		Lng float64 `form:"lng" json:"lng" binding:"required"`
+	}
+
+	if err := c.ShouldBind(&query); err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
 	addressService := service.NewAddressService()
 
-	lat, err := strconv.ParseFloat(c.Query("lat"), 32)
-
-	if  err != nil {
-		c.JSON(200, "Invalid Lat"+err.Error())
-		return
-	}
-
-	lng, err := strconv.ParseFloat(c.Query("lng"), 32)
-
-	if  err != nil {
-		c.JSON(200, "Invalid Lng"+err.Error())
-		return
-	}
-
-	locations := addressService.Reverse(lat, lng)
+	locations := addressService.Reverse(query.Lat, query.Lng)
 
 	c.JSON(200, locations)
 
