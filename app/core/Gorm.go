@@ -12,7 +12,7 @@ import (
 
 type Gorm struct {
 	Conn              *gorm.DB
-	dsn string
+	dsn               string
 	AutoSchema        bool
 	connectRetryCount uint8
 }
@@ -29,7 +29,7 @@ func NewGorm(dsn string) *Gorm {
 	return c
 }
 
-func (c *Gorm) connect()  {
+func (c *Gorm) connect() {
 
 	for {
 		conn, err := gorm.Open(postgres.Open(c.dsn), &gorm.Config{
@@ -43,7 +43,7 @@ func (c *Gorm) connect()  {
 			log.Printf(fmt.Sprintf("Could not connect to database. Wait 2 seconds. %d retries left...", c.connectRetryCount))
 			c.connectRetryCount--
 			time.Sleep(2 * time.Second)
-		}else{
+		} else {
 			c.Conn = conn
 			break
 		}
@@ -57,4 +57,5 @@ func (c *Gorm) connect()  {
 func (c *Gorm) generateSchema() {
 	_ = c.Conn.Debug().AutoMigrate(&entity.Address{})
 	_ = c.Conn.Debug().AutoMigrate(&entity.AddressComponents{})
+	_ = c.Conn.Debug().AutoMigrate(&entity.ReverseCallStatistic{})
 }

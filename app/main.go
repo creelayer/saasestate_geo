@@ -18,12 +18,9 @@ func init() {
 		_ = os.Setenv("APP_ENV", "dev")
 		appEnv = os.Getenv("APP_ENV")
 		configurator.Read(path+"/app/config/main."+appEnv+".json", &core.App.Config)
-	}else{
+	} else {
 		configurator.Read(path+"/config/main."+appEnv+".json", &core.App.Config)
 	}
-
-
-
 
 	//core.App.Pgx = core.NewPgx(core.App.Config["dsn"])
 	core.App.Gorm = core.NewGorm(core.App.Config["dsn"])

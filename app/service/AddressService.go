@@ -13,6 +13,7 @@ type AddressService struct {
 	geo.Coder
 	*mappers.LocationMapper
 	*AddressComponentService
+	*ReverseCallStatisticService
 }
 
 func NewAddressService() *AddressService {
@@ -21,6 +22,7 @@ func NewAddressService() *AddressService {
 	c.Coder = google.NewGoogleCoder(core.App.Config["google_geo_key"])
 	c.LocationMapper = mappers.NewLocationMapper()
 	c.AddressComponentService = NewAddressComponentService()
+	c.ReverseCallStatisticService = NewReverseStatisticService()
 	return c
 }
 
@@ -34,11 +36,13 @@ func (c *AddressService) Reverse(lat float64, lng float64) []geo.Response {
 
 	locations := c.Coder.Reverse(lat, lng)
 
+	c.ReverseCallStatisticService.Add(lat, lng, locations)
+
 	for _, location := range locations {
 
 		componentsIds := make([]int32, len(location.Components))
 
-		for j, component:= range location.Components{
+		for j, component := range location.Components {
 			entity := c.LocationMapper.ToComponent(&component)
 			c.AddressComponentService.upsert(&entity)
 			componentsIds[j] = entity.Id
@@ -52,4 +56,3 @@ func (c *AddressService) Reverse(lat float64, lng float64) []geo.Response {
 	addresses = c.FindOneByLanLng(lat, lng)
 	return c.LocationMapper.ToLocations(&addresses)
 }
-
