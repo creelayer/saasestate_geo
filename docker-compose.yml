@@ -20,5 +20,7 @@ services:
     container_name: saasestate_geo_app
     environment:
       APP_ENV: prod
+    ports:
+      - 8088:8080
     depends_on:
       - db

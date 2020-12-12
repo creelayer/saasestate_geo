@@ -12,14 +12,14 @@ func ReverseHandler(c *gin.Context) {
 
 	lat, err := strconv.ParseFloat(c.Query("lat"), 32)
 
-	if  err != nil {
+	if err != nil {
 		c.JSON(200, "Invalid Lat"+err.Error())
 		return
 	}
 
 	lng, err := strconv.ParseFloat(c.Query("lng"), 32)
 
-	if  err != nil {
+	if err != nil {
 		c.JSON(200, "Invalid Lng"+err.Error())
 		return
 	}
