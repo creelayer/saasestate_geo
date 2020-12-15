@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"app/dto"
 	"app/service"
 )
 
@@ -24,6 +25,6 @@ func ReverseHandler(c *gin.Context) {
 
 	locations := addressService.Reverse(query.Lat, query.Lng)
 
-	c.JSON(200, locations)
+	c.JSON(200, dto.NewLocationResponse(locations))
 
 }

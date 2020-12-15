@@ -2,6 +2,7 @@ package service
 
 import (
 	"app/core"
+	"app/entity"
 	"app/mappers"
 	"app/pkg/geo"
 	"app/pkg/geo/google"
@@ -26,12 +27,12 @@ func NewAddressService() *AddressService {
 	return c
 }
 
-func (c *AddressService) Reverse(lat float64, lng float64) []geo.Response {
+func (c *AddressService) Reverse(lat float64, lng float64) []entity.Address {
 
 	addresses := c.FindOneByLanLng(lat, lng)
 
 	if len(addresses) > 0 {
-		return c.LocationMapper.ToLocations(&addresses)
+		return addresses
 	}
 
 	locations := c.Coder.Reverse(lat, lng)
@@ -40,19 +41,16 @@ func (c *AddressService) Reverse(lat float64, lng float64) []geo.Response {
 
 	for _, location := range locations {
 
-		componentsIds := make([]int32, len(location.Components))
+		address := c.LocationMapper.ToAddress(&location)
 
-		for j, component := range location.Components {
+		for _, component := range location.Components {
 			entity := c.LocationMapper.ToComponent(&component)
 			c.AddressComponentService.upsert(&entity)
-			componentsIds[j] = entity.Id
+			address.Components = append(address.Components, entity)
 		}
 
-		address := c.LocationMapper.ToAddress(&location)
-		_ = address.Components.Set(componentsIds)
 		c.AddressRepository.Save(&address)
 	}
 
-	addresses = c.FindOneByLanLng(lat, lng)
-	return c.LocationMapper.ToLocations(&addresses)
+	return c.FindOneByLanLng(lat, lng)
 }

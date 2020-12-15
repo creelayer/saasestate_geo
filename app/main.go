@@ -17,7 +17,7 @@ func init() {
 	if appEnv == "" {
 		_ = os.Setenv("APP_ENV", "dev")
 		appEnv = os.Getenv("APP_ENV")
-		configurator.Read(path+"/app/config/main."+appEnv+".json", &core.App.Config)
+		configurator.Read(path+"/config/main."+appEnv+".json", &core.App.Config)
 	} else {
 		configurator.Read(path+"/config/main."+appEnv+".json", &core.App.Config)
 	}

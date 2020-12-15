@@ -25,8 +25,9 @@ func (c *AddressRepository) FindOneByLanLng(lat float64, lng float64) []entity.A
 	var e []entity.Address
 
 	result := c.db.Conn.
-		Raw("SELECT * FROM addresses WHERE ST_SetSRID(ST_MakePoint(lat,lng), 4326) <-> ST_SetSRID(ST_MakePoint(?, ?), 4326) < 0.00020 "+
+		Raw("SELECT addresses.* FROM addresses WHERE ST_SetSRID(ST_MakePoint(lat,lng), 4326) <-> ST_SetSRID(ST_MakePoint(?, ?), 4326) < 0.00020 "+
 			"ORDER BY ST_SetSRID(ST_MakePoint(lat,lng), 4326) <-> ST_SetSRID(ST_MakePoint(?, ?), 4326)", lat, lng, lat, lng).
+		Preload("Components").
 		Find(&e)
 
 	if result.RowsAffected == 0 {

@@ -4,7 +4,6 @@ import (
 	"app/entity"
 	"app/helpers"
 	"app/pkg/geo"
-	"encoding/json"
 )
 
 type LocationMapper struct {
@@ -30,32 +29,29 @@ func (c *LocationMapper) ToComponent(cmp *geo.Component) entity.AddressComponent
 
 }
 
-func (c *LocationMapper) ToLocations(addresses *[]entity.Address) []geo.Response {
-
-	locations := make([]geo.Response, len(*addresses))
-
-	for i, address := range *addresses {
-		locations[i] = c.ToLocation(&address)
-	}
-
-	return locations
-}
-
-func (c *LocationMapper) ToLocation(a *entity.Address) geo.Response {
-
-	location := geo.Response{
-		Id:      a.Id,
-		PlaceId: a.PlaceId,
-		Name:    a.Name,
-		Lat:     a.Lat,
-		Lng:     a.Lng,
-	}
-
-	location.Data, _ = json.Marshal(a.Data)
-
-	return location
-
-}
+// func (c *LocationMapper) ToLocations(addresses *[]entity.Address) []dto.Location {
+//
+// 	locations := make([]dto.Location, len(*addresses))
+//
+// 	for i, address := range *addresses {
+// 		locations[i] = c.ToLocation(&address)
+// 	}
+//
+// 	return locations
+// }
+//
+// func (c *LocationMapper) ToLocation(a *entity.Address) dto.Location {
+//
+// 	location := dto.Location{
+// 		Id:      a.Id,
+// 		Name:    a.Name,
+// 		Lat:     a.Lat,
+// 		Lng:     a.Lng,
+// 	}
+//
+// 	return location
+//
+// }
 
 func (c *LocationMapper) ToAddress(l *geo.Response) entity.Address {
 
