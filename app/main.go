@@ -3,11 +3,19 @@ package main
 import (
 	"app/core"
 	"app/handlers"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/na1al/lesson/pkg/geo"
+	"github.com/na1al/lesson/pkg/address"
 	"os"
 )
 
 func init() {
+
+	l := geo.Location{}
+	l.Id = 1;
+
+	fmt.Println(l.Id)
 
 	appEnv := os.Getenv("APP_ENV")
 
@@ -27,6 +35,8 @@ func init() {
 }
 
 func main() {
+
+
 
 	r := gin.Default()
 
